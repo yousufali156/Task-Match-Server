@@ -58,6 +58,28 @@ async function run() {
       res.status(201).json({ message: 'Task saved!', taskId: result.insertedId });
     });
 
+    // updated functionality
+    app.put('/tasks/:id', async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const updatedTask = req.body;
+      const updatedDoc = {
+        $set: {
+          title: updatedTask.title,
+          category: updatedTask.category,
+          description: updatedTask.description,
+          deadline: updatedTask.deadline,
+          budget: updatedTask.budget,
+          updatedAt: updatedTask.updatedAt,
+        }
+      }
+
+      const result = await tasksCollection.updateOne(filter, updatedDoc);
+      res.send(result);
+
+    });
+
+
     
 
 
