@@ -29,8 +29,8 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    await client.connect();
-    console.log('✅ Connected to MongoDB');
+    // await client.connect();
+    // console.log(' Connected to MongoDB');
 
     const db = client.db('assign-10-grapes');
     const tasksCollection = db.collection('tasks');
@@ -108,7 +108,7 @@ async function run() {
       res.send('🍇 Grapes Task Server Running!');
     });
   } catch (err) {
-    console.error('❌ MongoDB error:', err);
+    // console.error('❌ MongoDB error:', err);
   }
 }
 
