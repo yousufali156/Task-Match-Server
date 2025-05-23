@@ -35,6 +35,17 @@ async function run() {
     const db = client.db('assign-10-grapes');
     const tasksCollection = db.collection('tasks');
 
+
+
+    // Get top 6 recipes sorted by likes in descending order
+    app.get("/tasks/top", async (req, res) => {
+      const topTask = await tasksCollection
+        .find()
+        .limit(6)
+        .toArray();
+      res.send(topTask);
+    });
+
     app.get('/tasks', async (req, res) => {
       const result = await tasksCollection.find().toArray();
       res.send(result)
