@@ -22,7 +22,6 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    await client.connect();
 
     const db = client.db('assign-10-grapes');
     const tasksCollection = db.collection('tasks');
@@ -53,16 +52,23 @@ async function run() {
       res.send(result);
     });
 
-    // 📌 PUT update a task
+    // 📌 PUT update task by ID
     app.put('/tasks/:id', async (req, res) => {
       const id = req.params.id;
       const updatedTask = req.body;
-      const filter = { _id: new ObjectId(id) };
-      const options = { upsert: true };
-      const updatedDoc = {
-        $set: updatedTask,
-      };
-      const result = await tasksCollection.updateOne(filter, updatedDoc, options);
+      const result = await tasksCollection.updateOne(
+        { _id: new ObjectId(id) },
+        {
+          $set: {
+            title: updatedTask.title,
+            category: updatedTask.category,
+            description: updatedTask.description,
+            deadline: updatedTask.deadline,
+            budget: updatedTask.budget,
+            updatedAt: updatedTask.updatedAt,
+          },
+        }
+      );
       res.send(result);
     });
 
@@ -73,12 +79,9 @@ async function run() {
       res.send(result);
     });
 
-    // ✅ Confirm successful DB connection
-    // await client.db("admin").command({ ping: 1 });
     console.log("✅ Connected to MongoDB!");
   } finally {
-    // Optionally close the DB client if you want:
-    // await client.close();
+
   }
 }
 
