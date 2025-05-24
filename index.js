@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const path = require('path');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 const app = express();
@@ -22,9 +21,20 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-
     const db = client.db('assign-10-grapes');
     const tasksCollection = db.collection('tasks');
+    const usersCollection = db.collection('users'); 
+
+    // 📌 Save a new user (only if not exists)
+    app.post('/users', async (req, res) => {
+      const user = req.body;
+      const existing = await usersCollection.findOne({ email: user.email });
+      if (existing) {
+        return res.status(409).send({ message: 'User already exists' });
+      }
+      const result = await usersCollection.insertOne(user);
+      res.send(result);
+    });
 
     // 📌 GET all tasks
     app.get('/tasks', async (req, res) => {
@@ -79,19 +89,19 @@ async function run() {
       res.send(result);
     });
 
-    console.log("✅ Connected to MongoDB!");
-  } finally {
-
+    console.log("✅ Connected to MongoDB and ready!");
+  } catch (error) {
+    console.error("❌ Error during server run:", error);
   }
 }
 
 run().catch(console.dir);
 
-// Root endpoint
+// ✅ Health check route
 app.get('/', (req, res) => {
   res.send('🍇 Grapes Task Server Running!');
 });
 
 app.listen(port, () => {
-  console.log(`🚀 Server running on http://localhost:${port}`);
+  console.log(`🚀 Server running at http://localhost:${port}`);
 });
