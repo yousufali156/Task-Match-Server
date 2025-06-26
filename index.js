@@ -30,6 +30,7 @@ async function run() {
     const db = client.db('assign-10-grapes');
     const tasksCollection = db.collection('tasks');
     const usersCollection = db.collection('users');
+    const featuredTasksCollection = db.collection('featuredTasks');
 
     // 📌 Save a new user (only if not exists)
     app.post('/users', async (req, res) => {
@@ -95,6 +96,30 @@ async function run() {
       res.send(result);
     });
 
+    // 📌 GET all featured tasks
+    app.get('/featured-tasks', async (req, res) => {
+      try {
+        const result = await db.collection('featuredTasks').find().toArray();
+        res.send(result);
+      } catch (err) {
+        res.status(500).send({ error: 'Failed to load featured tasks' });
+      }
+    });
+
+    // ✅ Get single featured task by ID
+    app.get('/featured-tasks/:id', async (req, res) => {
+      try {
+        const id = req.params.id;
+        const task = await featuredTasksCollection.findOne({ _id: new ObjectId(id) }); // ✅ Fixed
+        if (!task) {
+          return res.status(404).send({ message: 'Task not found' });
+        }
+        res.send(task);
+      } catch (err) {
+        console.error(err);
+        res.status(500).send({ message: 'Server error' });
+      }
+    });
 
     // 📊 GET dashboard stats for a user
     app.get('/dashboard-stats', async (req, res) => {
@@ -105,22 +130,31 @@ async function run() {
           return res.status(400).send({ message: 'Email is required' });
         }
 
-        const addedCount = await tasksCollection.estimatedDocumentCount();
-        const browseableCount = await tasksCollection.countDocuments(); // Or filter if needed
-        const postedCount = await tasksCollection.countDocuments({ createdBy: email });
-        const featuredCount = await tasksCollection.countDocuments({ featured: true });
+        // User-specific added tasks count (using email field)
+        const addedByUser = await tasksCollection.countDocuments({ email: email });
+
+        // All browseable tasks globally (status: 'open' or 'browseable' - adjust as per your data)
+        const browseable = await tasksCollection.countDocuments({ status: 'open' });
+
+        // User-specific posted tasks count (also by email)
+        const postedByUser = await tasksCollection.countDocuments({ email: email });
+
+        // Featured tasks count fixed to 40
+        const featured = 40;
 
         res.send({
-          added: addedCount,
-          browseable: browseableCount,
-          posted: postedCount,
-          featured: featuredCount || 0,
+          addedByUser,
+          browseable,
+          postedByUser,
+          featured
         });
+
       } catch (error) {
         console.error('Error fetching dashboard stats:', error);
         res.status(500).send({ message: 'Internal server error' });
       }
     });
+
 
 
     console.log("✅ Connected to MongoDB and ready!");
