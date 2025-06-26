@@ -20,11 +20,6 @@ const client = new MongoClient(uri, {
 });
 
 
-
-// All is okey 
-
-
-
 async function run() {
   try {
     const db = client.db('assign-10-grapes');
@@ -110,7 +105,7 @@ async function run() {
     app.get('/featured-tasks/:id', async (req, res) => {
       try {
         const id = req.params.id;
-        const task = await featuredTasksCollection.findOne({ _id: new ObjectId(id) }); // ✅ Fixed
+        const task = await featuredTasksCollection.findOne({ _id: new ObjectId(id) }); 
         if (!task) {
           return res.status(404).send({ message: 'Task not found' });
         }
@@ -155,8 +150,7 @@ async function run() {
       }
     });
 
-
-
+    // ✅ Connect to MongoDB
     console.log("✅ Connected to MongoDB and ready!");
   } catch (error) {
     console.error("❌ Error during server run:", error);
