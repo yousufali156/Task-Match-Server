@@ -29,7 +29,7 @@ async function run() {
   try {
     const db = client.db('assign-10-grapes');
     const tasksCollection = db.collection('tasks');
-    const usersCollection = db.collection('users'); 
+    const usersCollection = db.collection('users');
 
     // 📌 Save a new user (only if not exists)
     app.post('/users', async (req, res) => {
@@ -94,6 +94,34 @@ async function run() {
       const result = await tasksCollection.deleteOne({ _id: new ObjectId(id) });
       res.send(result);
     });
+
+
+    // 📊 GET dashboard stats for a user
+    app.get('/dashboard-stats', async (req, res) => {
+      try {
+        const email = req.query.email;
+
+        if (!email) {
+          return res.status(400).send({ message: 'Email is required' });
+        }
+
+        const addedCount = await tasksCollection.estimatedDocumentCount();
+        const browseableCount = await tasksCollection.countDocuments(); // Or filter if needed
+        const postedCount = await tasksCollection.countDocuments({ createdBy: email });
+        const featuredCount = await tasksCollection.countDocuments({ featured: true });
+
+        res.send({
+          added: addedCount,
+          browseable: browseableCount,
+          posted: postedCount,
+          featured: featuredCount || 0,
+        });
+      } catch (error) {
+        console.error('Error fetching dashboard stats:', error);
+        res.status(500).send({ message: 'Internal server error' });
+      }
+    });
+
 
     console.log("✅ Connected to MongoDB and ready!");
   } catch (error) {
