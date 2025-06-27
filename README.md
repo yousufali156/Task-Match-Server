@@ -8,7 +8,7 @@ Task Match is a dynamic and modern freelance marketplace where clients can post 
 
 ## 📸 Preview
 
-> *(Add a few screenshots or a demo GIF here to visually represent the application.)*
+> <img src="https://i.ibb.co/LzX2741k/grapes-market-web-app.jpg" alt="https://grapes-market.web.app/"  style="max-width: 100%;">
 
 ---
 
