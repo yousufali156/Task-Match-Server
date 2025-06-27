@@ -2,7 +2,7 @@
 
 [Live Site 🌐](https://grapes-market.web.app)
 
-Task Match is a dynamic and modern freelance marketplace where clients can post small tasks, and freelancers can bid to get hired. Whether you need help with design, development, writing, or marketing — Task Match makes it fast and easy to connect with the right talent.
+Task Match is a dynamic and modern freelance marketplace where clients can post small tasks, and freelancers can bid to secure a job. Whether you need help with design, development, writing, or marketing, Task Match makes it fast and easy to connect with the right talent.
 
 ---
 
@@ -124,7 +124,7 @@ Enable Email/Password and Google Auth
 
 Add your credentials to .env
 
-
+<br/>
 
 📁 Folder Structure
 
@@ -157,7 +157,7 @@ Task Match<br/>
            # App root <br/>
 
 
-
+<br/>
 
 
 🤝 Contributing
@@ -173,6 +173,8 @@ Push to the branch: git push origin feature/your-feature.
 
 Open a Pull Request.
 
+<br/>
+<br/>
 ## 🧑‍💻 Author
 
 **Md. Yousuf Ali**
@@ -181,17 +183,17 @@ Open a Pull Request.
 - 🐦 [Twitter](https://twitter.com/mdyousufali001)
 - 📂 [GitHub](https://github.com/yousufali156)
 
+<br/>
+📬 Contact <br/>
+👨‍💻 Developer: Yousuf Ali <br/>
+📧 Email: mdyousufali.dev@gmail.com <br/>
 
-📬 Contact
-👨‍💻 Developer: Yousuf Ali
-📧 Email: mdyousufali.dev@gmail.com
-
-
+<br/>
 
 📄 License
 This project is open source and available under the MIT License.
 
-
+<br/>
 
 ---
 
@@ -200,8 +202,11 @@ Using **React**, **Tailwind CSS**, **Firebase**, and **MongoDB**
 
 ---
 ```
-Let me know if you'd like a separate version for the **server-side (backend)** `README.md` as well. ```
-
+Let me know if you'd like a separate version for the **server-side (backend)** `README.md` as well.
+```
+<br/>
+<br/>
+<br/>
 
 ☕ Support Me
 <p align="center"> <a href="https://www.buymeacoffee.com/yousufali156" target="_blank"> <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="60" style="border-radius:12px" /> </a> </p>
